@@ -1,0 +1,150 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>正则检测工具</title>
+	<link href="assets/regexpal.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<div id="header">
+		<img src="assets/regexpal.gif" alt="RegexPal"/>
+		<h1><span class="t1">Regex</span><span class="t2">Pal</span>
+			<span id="version">0.1.4</span>
+			<span id="subtitle">&mdash; 正则表达式实时调试工具(中文翻译:isbadguy)</span>
+		</h1>
+	</div>
+
+	<div id="options">
+		<ul>
+			<li class="hidden"><input id="flagG" type="checkbox" checked="checked"/><label for="flagG">Global</label> <span class="flag">(g)</span></li>
+			<li><input id="flagI" type="checkbox" /><label for="flagI">不区分大小写</label> <span class="flag">(i)</span></li>
+			<li><input id="flagM" type="checkbox" checked="checked" /><label for="flagM">^$ 忽略换行符</label> <span class="flag">(m)</span></li>
+			<li><input id="flagS" type="checkbox" /><label for="flagS">. 匹配所有</label> <span class="flag">(s)</span></li>
+			<li class="optGroup" id="quickReferenceDropdown">语法参考</li>
+			<li class="optGroup" id="optionsDropdown">设置
+				<ul>
+					<li><input id="highlightSyntax" type="checkbox" checked="checked"/><label for="highlightSyntax">正则表达式高亮显示</label></li>
+					<li><input id="highlightMatches" type="checkbox" checked="checked"/><label for="highlightMatches">匹配模式高亮显示</label></li>
+					<li><input id="invertMatches" type="checkbox"/><label for="invertMatches" title="Highlight any text not matched by the regex">反向高亮</label></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+
+	<div id="quickReference" class="hidden">
+		<h2>语法参考</h2>
+		<img class="pin" src="assets/pin.gif" alt="pin" title="pin"/>
+		<img class="close" src="assets/close.gif" alt="close" title="close"/>
+		<table cellspacing="0" summary="Regular expressions reference">
+			<tbody>
+				<tr>
+					<td><code>.</code></td>
+					<td>除换行符以外的所有字符</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>\.</code></td>
+					<td>转义字符(另有<code>\*</code>, <code>\(</code>, <code>\\</code>, 等等.)</td>
+				</tr>
+				<tr>
+					<td><code>^</code></td>
+					<td>字符串开头</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>$</code></td>
+					<td>字符串结尾</td>
+				</tr>
+				<tr>
+					<td><code>\d</code>,<code>\w</code>,<code>\s</code></td>
+					<td>一个数字, 字符 <code>[A-Za-z0-9_]</code>, 空格.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>\D</code>,<code>\W</code>,<code>\S</code></td>
+					<td>一个非数字, 非字符 <code>[A-Za-z0-9_]</code>, 非空格.</td>
+				</tr>
+				<tr>
+					<td><code>[abc]</code></td>
+					<td>a,b或c中的一个.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>[a-z]</code></td>
+					<td>a到z中的一个字母.</td>
+				</tr>
+				<tr>
+					<td><code>[^abc]</code></td>
+					<td>除a,b或c的一个字符.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>aa|bb</code></td>
+					<td>aa或者bb.</td>
+				</tr>
+				<tr>
+					<td><code>?</code></td>
+					<td>0次或1次匹配.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>*</code></td>
+					<td>任意次数匹配.</td>
+				</tr>
+				<tr>
+					<td><code>+</code></td>
+					<td>一次或一次以上匹配.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>{<em>n</em>}</code></td>
+					<td><em>n</em>次精确匹配.</td>
+				</tr>
+				<tr>
+					<td><code>{<em>n</em>,}</code></td>
+					<td><em>n</em>次或<em>n</em>次以上匹配.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>{<em>m</em>,<em>n</em>}</code></td>
+					<td>最少<em>m</em>次,最多<em>n</em>次匹配.</td>
+				</tr>
+				<tr>
+					<td><code>??</code>,<code>*?</code>,<code>+?</code>,<br/><code>{<em>n</em>}?</code>, etc.</td>
+					<td>同上,但尽可能少次数的匹配.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>(</code><em>expr</em><code>)</code></td>
+					<td>捕获 <em>expr</em> 子模式,以 <code>\1</code>使用它, 等等.</td>
+				</tr>
+				<tr>
+					<td><code>(?:</code><em>expr</em><code>)</code></td>
+					<td>忽略捕获的子模式.</td>
+				</tr>
+				<tr class="altBg">
+					<td><code>(?=</code><em>expr</em><code>)</code></td>
+					<td>正向预查模式 <em>expr</em>.</td>
+				</tr>
+				<tr>
+					<td><code>(?!</code><em>expr</em><code>)</code></td>
+					<td>负向预查模式 <em>expr</em>.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="body">
+		<div id="search" class="smartField">
+			<textarea cols="100" rows="3" tabindex="1" spellcheck="false">此处输入正则表达式</textarea>
+		</div>
+		<div id="input" class="smartField">
+			<textarea cols="100" rows="10" tabindex="2" spellcheck="false">此处输入要匹配的文本</textarea>
+		</div>
+	</div>
+
+	<div id="footer" class="small">
+		<p id="copyright"><a href="javascript:RegexPal.permalink();" id="permalink">Permalink</a> :: &copy; 2012 原作者:<a href="http://blog.stevenlevithan.com/">Steven Levithan</a> :: <a href="http://code.google.com/p/regexpal/">Google Code原版地址</a> :: 中文翻译:isbadguy</p>
+	</div>
+
+	<script src="assets/build-0.1.4.js" type="text/javascript"></script>
+	<!-- Build file includes:
+	<script src="assets/xregexp.js"></script>
+	<script src="assets/helpers.js"></script>
+	<script src="assets/regexpal.js"></script>
+	-->
+
+	<!-- Stats by Mint <haveamint.com> -->
+	<script src="mint/js.js" type="text/javascript"></script>
+</body>
+</html>
